@@ -1,0 +1,5 @@
+included: Sources
+line_length: 140
+identifier_name:
+  excluded: # excluded via string array
+    - to
