@@ -121,7 +121,7 @@ Any line with a `#` as the first non-white-space character is treated as a comme
 
 The store record has three parameters that are `|` delimited
 
-* `name` - A name for this store that is used to define the store's class instance variable as well as indicate the generated code insertion point. The name can be anything except `delete` and `migrate`.
+* `name` - A name for this store that is used to define the store's class instance variable and code mark identifier. The name can be anything except `delete` and `migrate`.
 * `suite` - An expression that, if specified, is used to construct a store object with a suite name (AKA app group in iOS). See `UserDefaults`. Use `none` to omit generating a store variable as you will supply one in your class. Leave this blank or write `standard` to use `UserDefaults.standard`.
 * `options` - A comma-delimited set of code generation flags. (See code below)
 
