@@ -23,13 +23,13 @@ This kind of on-the-spot use of `UserDefaults` has at least 10 issues:
 1. The caller has to know the data source: `UserDefaults.standard`
 1. The caller has to reference the key name, twice: `"firstLaunch"`
 1. The caller has to know the type: `prefs.bool` and `true`
-1. The caller has to know about any conversions: `!` and `true` (did you catch that a `bool` is `false` by default?)
+1. The caller has to know about any conversions: `!` and `true` (did you catch the inverted logic?)
 1. All this code, at the point of use, adds noise around the real purpose of the code -- to call `showFTUX()` on first app launch.
 1. This code is then repeated in other places for some preferences, thus violating the DRY principle
 1. It is not easy to unit test with the above code.
-1. Your code will have many other preferences everywhere -- most likely without documentation
-1. Migrating preferences to a different `UserDefaults` location is therefore not trivial
-1. Removing deprecated preferences is treated as a nice to have detail that often gets left undone.
+1. There may be many other preferences throughout the code -- most likely without documentation
+1. Migrating preferences to a different `UserDefaults` location is not trivial
+1. Removing deprecated preferences is easy to leave undone or forgotten
 
 A solution to the above is to define a dedicated class that encapsulates the details of each preference
 so that the application logic can focus on using them in a simple and clear way.
