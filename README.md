@@ -4,7 +4,7 @@
 
 `SVMPrefs` is a command line tool that generates the code to read and write preferences based on the `SVM` data.
 
-The `SVM` name comes from the three main data records: Store, Variable, and Migrate.
+The `SVM` name comes from the three main data elements: Store, Variable, and Migrate.
 
 ## Why?
 
@@ -43,7 +43,8 @@ if prefs.isFirstLaunch {
 }
 ```
 
-SVMPrefs takes this one step further and generates the code to read, write, migrate and delete these preferences using your SVM data.
+SVMPrefs takes this one step further by generating the code to read, write,
+migrate and delete preferences based on your SVM specifications.
 
 ## Install from local build
 
@@ -65,7 +66,7 @@ The basic command line is as follows: `svmprefs [command] [options] [args]`
 
 You can run `svmprefs gen --help` to get additional details on the `gen` command.
 
-```sh
+```
 > svmprefs gen --help
 
 Usage: svmprefs gen <input> [options]
@@ -81,10 +82,10 @@ Options:
 
 ## Using in Xcode
 
-You can integrate SVMPrefs into your Xcode project to have it to generate the code prior to compiling as well as
-highlight any errors in your SVM data.
+You can integrate SVMPrefs in your Xcode project to have it generate the code prior to compiling as well as
+highlight any errors in your SVM specifications via a run script.
 
-Add a new "Run Script Phase" that occurs before compilation with:
+Add a new "Run Script Phase" that occurs before compilation with something like the following.
 
 ```sh
 set -e
@@ -95,13 +96,13 @@ if which svmprefs >/dev/null; then
   # NOTE: svmprefs supports just one file at a time.
   svmprefs gen -i 4 $SRCROOT/Common/SharedUserDefaults.swift
 else
-  echo "WARNING: SVMPrefs not installed, download from https://github.com/ghv/SVMPrefs"
+  echo "WARNING: svmprefs is not installed. See: https://github.com/ghv/SVMPrefs"
 fi
 ```
 
 ## SVM Data Format
 
-You must add a comment block in your code that starts and ends with `SVMPREFS` as follows.
+You must add a comment block in your code that starts and ends with `SVMPREFS` like the following.
 
 ```swift
 /*SVMPREFS [NB: the rest of this line reserved for svmprefs tool use]
