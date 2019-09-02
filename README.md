@@ -225,7 +225,7 @@ class MyDemoPreferences {
 }
 ```
 
-### Questions & Tips
+# Questions & Tips
 
 ## How can I inject the preference to be read or written?
 
