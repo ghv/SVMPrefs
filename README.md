@@ -1,5 +1,7 @@
 # SVMPrefs
 
+![Code Coverage: 95%](https://img.shields.io/badge/Code%20Coverage-95%25-green.svg)
+
 **Note**: This tool requires Xcode 11 for compilation as it uses some Swift 5.1 language features.
 
 `SVMPrefs` is a command line tool that generates the code to read and write preferences based on the `SVM` data.
@@ -220,6 +222,41 @@ class MyDemoPreferences {
     // MARK: END demo
 
     // ANYTHING HERE IS LEFT UNTOUCHED
+}
+```
+
+### Questions & Tips
+
+## How can I inject the preference to be read or written?
+
+There may be cases where you need to provide a reference to a preference in a function so that the code in there can then read or write to that
+preference without having to know the actual property. If you use to use the key name as this reference, you can now use
+a `KeyPath` or `WriteableKeyPath` for this purpose. Here is an example.
+
+```swift
+/*SVMPREFS
+S keypath
+V [String] | primaryList   | app.primaryList   | |
+V [String] | secondaryList | app.secondaryList | |
+SVMPREFS*/
+
+class KeyPathPrefs {
+    // MARK: BEGIN keypath
+    // MARK: END keypath
+}
+
+// Somewhere in your app...
+func demo() {
+    // A function that needs to use one of several preferences
+    func processList(keyPath: KeyPath<KeyPathPrefs, [String]>) {
+        let prefs = KeyPathPrefs()
+        let list = prefs[keyPath: keyPath]
+        // Do something with this list...
+    }
+
+    // How you call it:
+    processList(keyPath: \.primaryList)
+    processList(keyPath: \.secondaryList)
 }
 ```
 

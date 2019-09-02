@@ -283,4 +283,40 @@ final class SwiftCodeGeneratorTests: XCTestCase {
 
         assertSnapshot(matching: code, as: .svmPrefs())
     }
+
+    func testKeyPathExample() {
+        let code = #"""
+            import Foundation
+            import AppKit
+
+            /*SVMPREFS
+            S keypath
+            V [String] | primaryList   | app.primaryList   | |
+            V [String] | secondaryList | app.secondaryList | |
+            SVMPREFS*/
+
+            class KeyPathPrefs {
+                // MARK: BEGIN keypath
+                // MARK: END keypath
+            }
+
+            // Somewhere in your app...
+            func demo() {
+                // A function that needs to use one of several preferences
+                func processList(keyPath: KeyPath<KeyPathPrefs, [String]>) {
+                    let prefs = KeyPathPrefs()
+                    let list = prefs[keyPath: keyPath]
+                    // Do something with this list...
+                }
+
+                // How you call it:
+                processList(keyPath: \.primaryList)
+                processList(keyPath: \.secondaryList)
+            }
+
+            """#
+
+        assertSnapshot(matching: code, as: .svmPrefs())
+    }
+
 }
