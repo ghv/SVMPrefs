@@ -17,7 +17,7 @@ class StoreModel {
     var migrations: [MigrateModel] = []
 
     enum Options: String {
-        case generateRemoveAllMethod = "RALL"
+        case autoAddRemoveAllToEachVariable = "RALL" // Use NRALL to omit specific variables
     }
 
     init(offset: Int, withTokens tokens: [String]) throws {
@@ -51,7 +51,7 @@ class StoreModel {
         variableNameToIndexMap[variable.name] = variables.count
         variables.append(variable)
 
-        if options.contains(.generateRemoveAllMethod) {
+        if options.contains(.autoAddRemoveAllToEachVariable) {
             if !variable.options.contains(.omitFromRemoveAllMethod) {
                 variable.options.insert(.addToRemoveAllMethod)
             }
@@ -90,6 +90,7 @@ class VariableModel {
         case omitGeneratingSetter = "NSET"
 
         case addToRemoveAllMethod = "RALL"
+        // Use this to omit when RALL is set at the store level:
         case omitFromRemoveAllMethod = "NRALL"
 
         case generateRemovePrefMethod = "REM"

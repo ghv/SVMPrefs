@@ -48,7 +48,7 @@ final class StoreModelTests: XCTestCase {
             XCTAssertEqual(cut.suiteName, someSuite)
             XCTAssertEqual(cut.identifier, someName)
             XCTAssertEqual(cut.options.count, 1)
-            XCTAssertTrue(cut.options.contains(.generateRemoveAllMethod))
+            XCTAssertTrue(cut.options.contains(.autoAddRemoveAllToEachVariable))
         } catch {
             XCTFail("unexpected exception")
         }
