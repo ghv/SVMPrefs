@@ -201,9 +201,9 @@ class ParserMetaData {
                 if linesToDelete > 0 {
                     lines.removeSubrange(start..<end)
                     totalLinesDeleted += linesToDelete
-                    codeMark.begin.clearedOffset = start - 1
-                    codeMark.end.clearedOffset = start
                 }
+                codeMark.begin.clearedOffset = start - 1
+                codeMark.end.clearedOffset = start
             }
         }
 

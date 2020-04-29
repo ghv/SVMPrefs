@@ -96,3 +96,6 @@ class MyMigrationTests {
     }
     // MARK: END migrate ⬆⬆⬆ AUTO-GENERATED CODE - DO NOT EDIT ⬆⬆⬆
 }
+// These lines here attempt to creat the scenario
+// where there are enough extra lines (3) than being
+// removed (2) to prepare for the generated code to be inserted
