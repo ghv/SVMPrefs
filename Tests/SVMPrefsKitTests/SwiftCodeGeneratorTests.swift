@@ -136,20 +136,68 @@ final class SwiftCodeGeneratorTests: XCTestCase {
             SVMPREFS*/
 
             class MyMigrationTests {
-                // MARK: BEGIN migrate
-                // MARK: END migrate
-
                 // MARK: BEGIN main
+                // this will be deleted
                 // MARK: END main
 
                 // MARK: BEGIN copy
+                // this will be deleted
                 // MARK: END copy
+
+                // MARK: BEGIN migrate
+                // MARK: END migrate
             }
 
             """
 
         assertSnapshot(matching: code, as: .svmPrefs())
     }
+
+    func testMigrationWithCodeThatFollows() {
+        let code = """
+            import Foundation
+            import AppKit
+
+            /*SVMPREFS
+            S main | | RALL
+
+            V Bool | boolVar1    | boolVar2 | IS |
+            V Bool | hasBoolVar2 | boolVar2 | |
+            V Bool | boolVar3    | boolVar3 | |
+            V Bool | boolVar4    | boolVar4 | |
+
+            S copy | | RALL
+
+            V Bool | boolVar3 | boolVar3 | |
+            V Bool | boolVar4 | boolVar4 | |
+
+            M main | copy   | boolVar3 | boolVar3
+            M main | copy   | boolVar4 | boolVar4
+            M main | delete | hasBoolVar2
+
+            SVMPREFS*/
+
+            class MyMigrationTests {
+                // MARK: BEGIN main
+                // this will be deleted
+                // MARK: END main
+
+                // MARK: BEGIN copy
+                // this will be deleted
+                // MARK: END copy
+
+                // MARK: BEGIN migrate
+                // MARK: END migrate
+            }
+            // These lines here attempt to creat the scenario
+            // where there are enough extra lines (3) than being
+            // removed (2) to prepare for the generated code to be inserted
+
+            """
+
+        assertSnapshot(matching: code, as: .svmPrefs())
+    }
+
 
     func testDate() {
         let code = """
@@ -198,12 +246,15 @@ final class SwiftCodeGeneratorTests: XCTestCase {
               }
 
               // MARK: BEGIN main
+              // this will be deleted
               // MARK: END main
 
               // MARK: BEGIN main1
+              // this will be deleted
               // MARK: END main1
 
               // MARK: BEGIN main2
+              // this will be deleted
               // MARK: END main2
             }
 
@@ -228,6 +279,7 @@ final class SwiftCodeGeneratorTests: XCTestCase {
 
             class MyCompoundCodeMarakTests {
               // MARK: BEGIN main,main1,main2
+              // this will be deleted
               // MARK: END main,main1,main2
             }
 
@@ -249,6 +301,7 @@ final class SwiftCodeGeneratorTests: XCTestCase {
 
             class MyNoRemoveAllTests {
               // MARK: BEGIN main
+              // this will be deleted
               // MARK: END main
             }
 
