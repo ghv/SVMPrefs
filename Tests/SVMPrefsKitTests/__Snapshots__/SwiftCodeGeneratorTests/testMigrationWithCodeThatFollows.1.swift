@@ -20,7 +20,7 @@ M main | delete | hasBoolVar2
 
 SVMPREFS*/
 
-class MyMigrationTests {
+class MyMigrationTests2 {
     // MARK: BEGIN main ⬇⬇⬇ AUTO-GENERATED CODE - DO NOT EDIT ⬇⬇⬇
     var main = UserDefaults.standard
 

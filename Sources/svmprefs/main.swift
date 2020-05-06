@@ -9,7 +9,7 @@ import PathKit
 class Gen: Command {
     let name = "gen"
     let shortDescription = "Processes the given file and generates the code for the contained SVM data"
-    let input = Parameter()
+    let input = Param<String>()
 
     let backup = Flag("-b", "--backup", description: "Create a backup copy of the source file (foo.m -> foo.backup.m)")
     let debug = Flag("-d", "--debug", description: "Print debug output")

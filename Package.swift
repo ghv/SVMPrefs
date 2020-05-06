@@ -15,7 +15,7 @@ let package = Package(
         .library(name: "SVMPrefsTools", targets: ["SVMPrefsTools"])
     ],
     dependencies: [
-        .package(url: "https://github.com/jakeheis/SwiftCLI.git", from: "5.3.2"),
+        .package(url: "https://github.com/jakeheis/SwiftCLI.git", from: "6.0.0"),
         .package(url: "https://github.com/kylef/PathKit.git", from: "1.0.0"),
         .package(url: "https://github.com/sharplet/Regex.git", from: "2.1.0"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.5.0"),
