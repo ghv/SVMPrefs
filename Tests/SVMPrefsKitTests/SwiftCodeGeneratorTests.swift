@@ -177,7 +177,7 @@ final class SwiftCodeGeneratorTests: XCTestCase {
 
             SVMPREFS*/
 
-            class MyMigrationTests {
+            class MyMigrationTests2 {
                 // MARK: BEGIN main
                 // this will be deleted
                 // MARK: END main
