@@ -1,6 +1,7 @@
 # SVMPrefs
 
 ![Code Coverage: 95%](https://img.shields.io/badge/Code%20Coverage-95%25-green.svg)
+![CI Workflow](https://github.com/ghv/SVMPrefs/workflows/CI/badge.svg)
 
 **Note**: This tool requires Xcode 11 for compilation as it uses some Swift 5.1 language features.
 
@@ -20,18 +21,19 @@ if !prefs.bool(forKey: "firstLaunch") {
 }
 ```
 
-This kind of on-the-spot use of `UserDefaults` has at least 10 issues:
+This kind of on-the-spot use of `UserDefaults` has at least 11 issues:
 
-1. The caller has to know the data source: `UserDefaults.standard`
-1. The caller has to reference the key name, twice: `"firstLaunch"`
-1. The caller has to know the type: `prefs.bool` and `true`
-1. The caller has to know about any conversions: `!` and `true` (did you catch the inverted logic?)
-1. All this code, at the point of use, adds noise around the real purpose of the code -- to call `showFTUX()` on first app launch.
-1. This code is then repeated in other places for some preferences, thus violating the DRY principle
-1. It is not easy to unit test with the above code.
-1. There may be many other preferences throughout the code -- most likely without documentation
-1. Migrating preferences to a different `UserDefaults` location is not trivial
-1. Removing deprecated preferences is easy to leave undone or forgotten
+1.  The caller has to know the data source: `UserDefaults.standard`
+1.  The caller has to reference the key name, twice: `"firstLaunch"`
+1.  The caller has to know the type: `prefs.bool` and `true`
+1.  The caller has to know about any conversions: `!` and `true` (did you catch the inverted logic?)
+1.  All this code, at the point of use, adds noise around the real purpose of the code -- to call `showFTUX()` on first app launch.
+1.  This code is then repeated in other places for some preferences, thus violating the DRY principle
+1.  It is not easy to unit test with the above code.
+1.  There may be many other preferences throughout the code -- most likely without documentation
+1.  Migrating preferences to a different `UserDefaults` location is not trivial
+1.  Removing deprecated preferences is easy to leave undone or forgotten
+1.  There is limited code completion help with this approach
 
 A solution to the above is to define a dedicated class that encapsulates the details of each preference
 so that the application logic can focus on using them in a simple and clear way.
@@ -124,9 +126,9 @@ Any line with a `#` as the first non-white-space character is treated as a comme
 
 The store record has three parameters that are `|` delimited
 
-* `name` - A name for this store that is used to define the store's class instance variable and code mark identifier. The name can be anything except `delete` and `migrate`.
-* `suite` - An expression that, if specified, is used to construct a store object with a suite name (AKA app group in iOS). See `UserDefaults`. Use `none` to omit generating a store variable as you will supply one in your class. Leave this blank or write `standard` to use `UserDefaults.standard`.
-* `options` - A comma-delimited set of code generation flags. (See code below)
+*   `name` - A name for this store that is used to define the store's class instance variable and code mark identifier. The name can be anything except `delete` and `migrate`.
+*   `suite` - An expression that, if specified, is used to construct a store object with a suite name (AKA app group in iOS). See `UserDefaults`. Use `none` to omit generating a store variable as you will supply one in your class. Leave this blank or write `standard` to use `UserDefaults.standard`.
+*   `options` - A comma-delimited set of code generation flags. (See code below)
 
 ```swift
 enum Options: String {
@@ -140,11 +142,11 @@ You define one `S` record for each unique suite. Each `S` record is followed by 
 
 The variable record has five parameters that are `|` delimited
 
-* `type` - Any valid variable type expression including arrays, dates, optionals, and dictionaries.
-* `name` - The property name for this preference. If the variable is a boolean type, it will have an `is` prefix prepended if not already prepended.
-* `key` - The preference's key name. Leading and trailing white-space characters are not supported.
-* `options` - An optional comma-delimited set of code generation flags (See code below)
-* `default` - An optional default value to be returned if the preference does not exist in the store or has a null value.
+*   `type` - Any valid variable type expression including arrays, dates, optionals, and dictionaries.
+*   `name` - The property name for this preference. If the variable is a boolean type, it will have an `is` prefix prepended if not already prepended.
+*   `key` - The preference's key name. Leading and trailing white-space characters are not supported.
+*   `options` - An optional comma-delimited set of code generation flags (See code below)
+*   `default` - An optional default value to be returned if the preference does not exist in the store or has a null value.
 
 ```swift
 enum Options: String {
@@ -172,10 +174,10 @@ If you have one or more `S` records, you can use the `M` records to move the pre
 
 The migrate record has four parameters that are `|` delimited:
 
-* `source store` - The source `S` record's `name`
-* `destination store` - The destination `S` record's `name`. Use `delete` if source variable is being deleted.
-* `source variable name` - The variable `name` in the source store.
-* `destination variable name` - The variable `name` in the destination store. Omit if being deleted.
+*   `source store` - The source `S` record's `name`
+*   `destination store` - The destination `S` record's `name`. Use `delete` if source variable is being deleted.
+*   `source variable name` - The variable `name` in the source store.
+*   `destination variable name` - The variable `name` in the destination store. Omit if being deleted.
 
 The tool will insert all the migration code in a function called `migrate()` that you should call every time the app starts.
 Migration is performed as an object to object read and write. Once, migrated, the key is deleted from the source store.
