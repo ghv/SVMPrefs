@@ -161,6 +161,7 @@ enum Options: String {
     case omitGeneratingSetter = "NSET"
 
     case addToRemoveAllMethod = "RALL"
+    // Use this to omit when RALL is set at the store level:
     case omitFromRemoveAllMethod = "NRALL"
 
     case generateRemovePrefMethod = "REM"
@@ -264,6 +265,12 @@ func demo() {
 
 # License
 
-SVMPrefs is licensed under the Apache 2.0 License. All contributions are welcome. See [LICENSE.txt](LICENSE.txt) for details.
+Copyright 2019-2020 The SVMPrefs Authors. SVMPrefs is licensed under the Apache 2.0 License. Contributions welcome.
+
+See [LICENSE.md](LICENSE.md) for license information.
+
+See [CONTRIBUTORS.md](CONTRIBUTORS.md) for The SVMPrefs Authors.
+
+See [NOTICE.md](NOTICE.md) for dependency license information.
 
 # Thank You!
