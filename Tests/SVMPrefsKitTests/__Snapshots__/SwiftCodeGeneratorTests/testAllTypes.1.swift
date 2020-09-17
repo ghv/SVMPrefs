@@ -9,6 +9,7 @@ S demo | | RALL
 
 V Bool      | isBoolVar     | boolVar       | OBJC,REM,ISSET |
 V Bool      | invBoolVar    | invBoolVar    | INV,OBJC,REM,ISSET,IS |
+V Bool?     | optionalBool  | optionalBool  | OBJC,REM,ISSET |
 
 V Bool      | showEnabled2  | showEnabled2  | OBJC,REM,ISSET,IS |
 V Bool      | showEnabled   | showEnabled   | OBJC,REM,ISSET,IS |
@@ -19,6 +20,10 @@ V Bool      | firstLaunch   | firstLaunch   | INV,IS,rem,ISSET |
 V Double    | doubleVar    | doubleVar     | OBJC,REM,ISSET |
 V Float     | floatVar     | floatVar      | OBJC,REM,ISSET |
 V Int       | intVar       | intVar        | OBJC,REM,ISSET |
+
+V Double? | optionalDouble | optionalDouble | OBJC,REM,ISSET |
+V Float?  | optionalFloat  | optionalFloat  | OBJC,REM,ISSET |
+V Int?    | optionalInt    | optionalInt    | OBJC,REM,ISSET |
 
 V String?   | optStringVar | optStringVar | OBJC,REM,ISSET |
 V String    | stringVar    | stringVar    | OBJC,REM,ISSET |
@@ -65,6 +70,7 @@ class MyAllTypesTests {
     enum DemoKeys {
         static let isBoolVar = "boolVar"
         static let isInvBoolVar = "invBoolVar"
+        static let optionalBool = "optionalBool"
         static let isShowEnabled2 = "showEnabled2"
         static let isShowEnabled = "showEnabled"
         static let hasShownAlert = "hasShownAlert"
@@ -73,6 +79,9 @@ class MyAllTypesTests {
         static let doubleVar = "doubleVar"
         static let floatVar = "floatVar"
         static let intVar = "intVar"
+        static let optionalDouble = "optionalDouble"
+        static let optionalFloat = "optionalFloat"
+        static let optionalInt = "optionalInt"
         static let optStringVar = "optStringVar"
         static let stringVar = "stringVar"
         static let optAny = "optAny"
@@ -132,6 +141,27 @@ class MyAllTypesTests {
 
     @objc func removeInvBoolVarPref() {
         demo.removeObject(forKey: DemoKeys.isInvBoolVar)
+    }
+
+    var optionalBool: Bool? {
+        get {
+            return demo.object(forKey: DemoKeys.optionalBool) as? Bool
+        }
+        set {
+            if let newValue = newValue {
+                demo.set(newValue, forKey: DemoKeys.optionalBool)
+            } else {
+                demo.removeObject(forKey: DemoKeys.optionalBool)
+            }
+        }
+    }
+
+    @objc var isOptionalBoolSet: Bool {
+        return demo.object(forKey: DemoKeys.optionalBool) != nil
+    }
+
+    @objc func removeOptionalBoolPref() {
+        demo.removeObject(forKey: DemoKeys.optionalBool)
     }
 
     @objc var isShowEnabled2: Bool {
@@ -268,6 +298,69 @@ class MyAllTypesTests {
 
     @objc func removeIntVarPref() {
         demo.removeObject(forKey: DemoKeys.intVar)
+    }
+
+    var optionalDouble: Double? {
+        get {
+            return demo.object(forKey: DemoKeys.optionalDouble) as? Double
+        }
+        set {
+            if let newValue = newValue {
+                demo.set(newValue, forKey: DemoKeys.optionalDouble)
+            } else {
+                demo.removeObject(forKey: DemoKeys.optionalDouble)
+            }
+        }
+    }
+
+    @objc var isOptionalDoubleSet: Bool {
+        return demo.object(forKey: DemoKeys.optionalDouble) != nil
+    }
+
+    @objc func removeOptionalDoublePref() {
+        demo.removeObject(forKey: DemoKeys.optionalDouble)
+    }
+
+    var optionalFloat: Float? {
+        get {
+            return demo.object(forKey: DemoKeys.optionalFloat) as? Float
+        }
+        set {
+            if let newValue = newValue {
+                demo.set(newValue, forKey: DemoKeys.optionalFloat)
+            } else {
+                demo.removeObject(forKey: DemoKeys.optionalFloat)
+            }
+        }
+    }
+
+    @objc var isOptionalFloatSet: Bool {
+        return demo.object(forKey: DemoKeys.optionalFloat) != nil
+    }
+
+    @objc func removeOptionalFloatPref() {
+        demo.removeObject(forKey: DemoKeys.optionalFloat)
+    }
+
+    var optionalInt: Int? {
+        get {
+            return demo.object(forKey: DemoKeys.optionalInt) as? Int
+        }
+        set {
+            if let newValue = newValue {
+                demo.set(newValue, forKey: DemoKeys.optionalInt)
+            } else {
+                demo.removeObject(forKey: DemoKeys.optionalInt)
+            }
+        }
+    }
+
+    @objc var isOptionalIntSet: Bool {
+        return demo.object(forKey: DemoKeys.optionalInt) != nil
+    }
+
+    @objc func removeOptionalIntPref() {
+        demo.removeObject(forKey: DemoKeys.optionalInt)
     }
 
     @objc var optStringVar: String? {
@@ -750,6 +843,7 @@ class MyAllTypesTests {
     func demoRemoveAll() {
         demo.removeObject(forKey: DemoKeys.isBoolVar)
         demo.removeObject(forKey: DemoKeys.isInvBoolVar)
+        demo.removeObject(forKey: DemoKeys.optionalBool)
         demo.removeObject(forKey: DemoKeys.isShowEnabled2)
         demo.removeObject(forKey: DemoKeys.isShowEnabled)
         demo.removeObject(forKey: DemoKeys.hasShownAlert)
@@ -758,6 +852,9 @@ class MyAllTypesTests {
         demo.removeObject(forKey: DemoKeys.doubleVar)
         demo.removeObject(forKey: DemoKeys.floatVar)
         demo.removeObject(forKey: DemoKeys.intVar)
+        demo.removeObject(forKey: DemoKeys.optionalDouble)
+        demo.removeObject(forKey: DemoKeys.optionalFloat)
+        demo.removeObject(forKey: DemoKeys.optionalInt)
         demo.removeObject(forKey: DemoKeys.optStringVar)
         demo.removeObject(forKey: DemoKeys.stringVar)
         demo.removeObject(forKey: DemoKeys.optAny)
