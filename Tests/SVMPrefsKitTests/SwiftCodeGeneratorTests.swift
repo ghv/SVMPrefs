@@ -49,6 +49,7 @@ final class SwiftCodeGeneratorTests: XCTestCase {
 
             V Bool      | isBoolVar     | boolVar       | OBJC,REM,ISSET |
             V Bool      | invBoolVar    | invBoolVar    | INV,OBJC,REM,ISSET,IS |
+            V Bool?     | optionalBool  | optionalBool  | OBJC,REM,ISSET |
 
             V Bool      | showEnabled2  | showEnabled2  | OBJC,REM,ISSET,IS |
             V Bool      | showEnabled   | showEnabled   | OBJC,REM,ISSET,IS |
@@ -59,6 +60,10 @@ final class SwiftCodeGeneratorTests: XCTestCase {
             V Double    | doubleVar    | doubleVar     | OBJC,REM,ISSET |
             V Float     | floatVar     | floatVar      | OBJC,REM,ISSET |
             V Int       | intVar       | intVar        | OBJC,REM,ISSET |
+
+            V Double? | optionalDouble | optionalDouble | OBJC,REM,ISSET |
+            V Float?  | optionalFloat  | optionalFloat  | OBJC,REM,ISSET |
+            V Int?    | optionalInt    | optionalInt    | OBJC,REM,ISSET |
 
             V String?   | optStringVar | optStringVar | OBJC,REM,ISSET |
             V String    | stringVar    | stringVar    | OBJC,REM,ISSET |
@@ -371,5 +376,4 @@ final class SwiftCodeGeneratorTests: XCTestCase {
 
         assertSnapshot(matching: code, as: .svmPrefs())
     }
-
 }

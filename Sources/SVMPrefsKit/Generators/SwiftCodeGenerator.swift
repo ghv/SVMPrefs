@@ -5,36 +5,46 @@ import Stencil
 
 class SwiftCodeGenerator: BaseCodeGenerator, CodeGenerator {
 
+    let varTypesNotSupportedInObjectiveC = [
+        "Bool?",
+        "Double?",
+        "Float?",
+        "Int?"
+    ]
+
     let varTypeToUserDefaultMethodMap = [
         "Bool": "bool",
         "Double": "double",
         "Float": "float",
         "Int": "integer",
         "String": "string",
+        "Data": "data",
+        "Date": "object",
+
+        "Bool?": "object",
+        "Double?": "object",
+        "Float?": "object",
+        "Int?": "object",
         "String?": "string",
         "Any?": "object",
-
-        "Data": "data",
         "Data?": "data",
-
-        "Date": "object",
         "Date?": "object",
 
-        "[Any]": "array",
         "[Bool]": "array",
-        "[Date]": "array",
         "[Double]": "array",
         "[Float]": "array",
         "[Int]": "array",
         "[String]": "stringArray",
+        "[Any]": "array",
+        "[Date]": "array",
 
-        "[Any]?": "array",
         "[Bool]?": "array",
-        "[Date]?": "array",
         "[Double]?": "array",
         "[Float]?": "array",
         "[Int]?": "array",
         "[String]?": "stringArray",
+        "[Any]?": "array",
+        "[Date]?": "array",
 
         "[[String:Any]]": "array",
         "[[String:Any]]?": "array",
@@ -75,6 +85,13 @@ class SwiftCodeGenerator: BaseCodeGenerator, CodeGenerator {
         return result
     }
 
+    func objcDecoration(for variable: VariableModel) -> String {
+        guard !varTypesNotSupportedInObjectiveC.contains(variable.type) else {
+            return ""
+        }
+        return variable.options.contains(.decorateWithObjC) ? "@objc " : ""
+    }
+
     // swiftlint:disable:next function_body_length
     func generate(properties store: StoreModel) throws -> String {
         var result = ""
@@ -86,6 +103,7 @@ class SwiftCodeGenerator: BaseCodeGenerator, CodeGenerator {
 
             var context: [String: Any?] = [
                 "var": variable.swiftContext,
+                "varDecorate": objcDecoration(for: variable),
                 "decorate": variable.options.contains(.decorateWithObjC) ? "@objc " : "",
 
                 "invert": variable.swiftIsBoolean && variable.options.contains(.generateInvertedLogic) ? "!" : "",
@@ -106,7 +124,7 @@ class SwiftCodeGenerator: BaseCodeGenerator, CodeGenerator {
 
             let customTemplates: [String: String] = [
                 "Date as Double": """
-                    {{ decorate }}var {{ var.varName }}: Date {
+                    {{ varDecorate }}var {{ var.varName }}: Date {
                         get {
                             let interval: TimeInterval = {{ source }}.double(forKey: {{ key }})
                             return Date(timeIntervalSince1970: interval)
@@ -123,7 +141,7 @@ class SwiftCodeGenerator: BaseCodeGenerator, CodeGenerator {
                 result.append(try render(template, context))
             } else if let method = varTypeToUserDefaultMethodMap[variable.type.withSpacesRemoved] {
                 let template = """
-                        {{ decorate }}var {{ var.varName }}: {{ var.type }} {
+                        {{ varDecorate }}var {{ var.varName }}: {{ var.type }} {
                             get {
                                 return {{invert}}{{ source }}.{{ method }}(forKey: {{ key }}){{ cast }}{{ defaultValue }}
                             }
